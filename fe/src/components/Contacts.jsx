@@ -137,6 +137,7 @@ const Container = styled.div`
       h3 {
         color: #457b9d;
         font-weight: 500;
+        font-size: 0.88rem; 
       }
     }
   }
