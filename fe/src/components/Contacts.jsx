@@ -1,67 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import Logo from '../assets/logo.png';
 
 export default function Contacts({ contacts, changeChat }) {
-  const [currentUserName, setCurrentUserName] = useState(undefined);
-  const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
-  useEffect(() => {
-    (async () => {
-      const data = await JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-      );
-      setCurrentUserName(data.username);
-      setCurrentUserImage(data.avatarImage);
-    })();
-  }, []);
+
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
   };
   return (
-    <>
-      {currentUserImage && currentUserImage && (
-        <Container>
-          <div className='brand'>
-            <h3>Contacts</h3>
-          </div>
-          <div className='contacts'>
-            {contacts.map((contact, index) => {
-              return (
-                <div
-                  key={contact._id}
-                  className={`contact ${
-                    index === currentSelected ? 'selected' : ''
-                  }`}
-                  onClick={() => changeCurrentChat(index, contact)}>
-                  <div className='avatar'>
-                    <img
-                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt=''
-                    />
-                  </div>
-                  <div className='username'>
-                    <h3>{contact.username}</h3>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className='current-user'>
-            <div className='avatar'>
-              <img
-                src={`data:image/svg+xml;base64,${currentUserImage}`}
-                alt='avatar'
-              />
+    <Container>
+      <div className='brand'>
+        <h3>Contacts</h3>
+      </div>
+      <div className='contacts'>
+        {contacts.map((contact, index) => {
+          return (
+            <div
+              key={contact._id}
+              className={`contact ${
+                index === currentSelected ? 'selected' : ''
+              }`}
+              onClick={() => changeCurrentChat(index, contact)}>
+              <div className='avatar'>
+                <img
+                  src={`data:image/svg+xml;base64,${contact.avatarImage}`}
+                  alt=''
+                />
+              </div>
+              <div className='username'>
+                <h3>{contact.username}</h3>
+              </div>
             </div>
-            <div className='username'>
-              <h3>Login as {currentUserName}</h3>
-            </div>
-          </div>
-        </Container>
-      )}
-    </>
+          );
+        })}
+      </div>
+    </Container>
   );
 }
 const Container = styled.div`
@@ -118,27 +92,6 @@ const Container = styled.div`
     }
     .selected {
       border-color: #1d3557;
-    }
-  }
-
-  .current-user {
-    padding: 0.5rem 0.6rem;
-    background-color: #f1faee;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    .avatar {
-      img {
-        height: 2rem;
-      }
-    }
-    .username {
-      h3 {
-        color: #457b9d;
-        font-weight: 500;
-        font-size: 0.88rem; 
-      }
     }
   }
 `;
